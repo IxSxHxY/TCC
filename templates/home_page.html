@@ -1,0 +1,62 @@
+{% extends 'base.html' %} {% block title %} Homepage {% endblock %} {% block
+content %}
+<div class="container mx-auto">
+    <div class="my-4">
+        <form method="get" class="flex items-center">
+            <a href="./add_item" class="px-2 py-1 text-xl font-semibold bg-green-300 rounded-lg mr-5">+ Add Item</a>
+            <input type="text" name="query" class="border-2 bg-gray-200 text-xl rounded-lg px-2 py-1 border-blue-900 mr-5 border-black">
+            <button class="bg-blue-200 px-2 py-1 rounded-xl text-xl font-semibold mr-4" type="submit">Search</button>
+            <a class="bg-red-200 px-2 py-1 rounded-xl text-xl font-semibold" href="./">Clear</a>
+        </form>
+    </div>
+    {% if not query %}
+        <h1 class="text-2xl font-bold text-white">All Items</h1>
+    {% else %}
+        <h1 class="text-2xl font-bold text-white">All items with "{{query}}" </h1>
+    {% endif %}
+	
+	<div class="mx-auto flex mt-4 flex-grow-0 flex-wrap justify-evenly gap-2">
+		{% for item in items %}
+		<div class="card w-[270px] mb-4">
+			<div class="rounded-t-xl bg-[#ffffff] px-5 py-5">
+				<!-- <div class="flex items-end justify-between"> -->
+					<div>
+						<p class="text-xl font-bold">{{item.name}}</p>
+						<p class="text-xl font-bold mb-1">RM{{item.price}}</p>
+						<p class="text-md font-medium mb-1">Stock: {{item.count}}</p>
+                        <p class="text-xs font-medium mb-1">Created at {{item.created_at}}</p>
+                        <p class="text-xs font-medium">Updated at {{item.updated_at}}</p>
+					</div>
+					
+				<!-- </div> -->
+			</div>
+			<div class="px-5 pt-5 pb-5 rounded-b-xl text-white bg-[#5454c5]">
+				<div class="h-[80px]">
+					<p class="text-md font-semibold">Description:</p>
+					<p class="text-md font-medium">
+						{% if item.description %} {{ item.description }} {% else %} No
+						description {% endif %}
+					</p>
+				</div>
+				<div class="flex justify-center">
+					<a class="mr-3" href="./edit_item/{{item.id}}"><button class="px-3 py-2 rounded-xl bg-[#307470] font-bold text-sm text-white">Edit</button></a>
+					<button class="px-3 py-2 rounded-xl bg-[#cb0000] font-bold text-sm" onclick="confirmDelete('./delete_item/{{item.id}}')">Delete</button>
+				</div>
+			</div>
+		</div>
+
+		{% endfor %}
+	</div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        function confirmDelete(url) {
+            if(confirm("Are you sure you want to delete this item?")) {
+                window.location.href = url
+            }
+        }
+    </script>
+{% endblock %}

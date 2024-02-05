@@ -1,0 +1,8 @@
+uvicorn
+fastapi
+gunicorn
+sqlalchemy
+mysql-connector-python
+Jinja2
+itsdangerous
+python-multipart
